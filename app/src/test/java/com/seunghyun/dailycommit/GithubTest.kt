@@ -34,4 +34,11 @@ class GithubTest {
             github.getTodayCommitCount()
         }
     }
+
+    @Test
+    fun getTodayCommitCountUserNotFound() {
+        assertThrows(NullPointerException::class.java) {
+            Github("").getTodayCommitCount()
+        }
+    }
 }
