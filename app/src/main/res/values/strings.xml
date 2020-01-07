@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">DailyCommit</string>
+
+    <string name="commit_notification_title">Let\'s make some commits!</string>
+    <plurals name="commit_notification_content">
+        <item quantity="one">You made %d commit today. Your goal is %d.</item>
+        <item quantity="other">You made %d commits today. Your goal is %d.</item>
+    </plurals>
+
+
+    <string name="notification_channel_general">General</string>
 </resources>
