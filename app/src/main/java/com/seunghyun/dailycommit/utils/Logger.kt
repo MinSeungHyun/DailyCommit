@@ -1,4 +1,4 @@
-package com.seunghyun.dailycommit
+package com.seunghyun.dailycommit.utils
 
 import android.util.Log
 

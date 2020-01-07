@@ -1,5 +1,6 @@
 package com.seunghyun.dailycommit
 
+import com.seunghyun.dailycommit.utils.Github
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.text.ParseException
