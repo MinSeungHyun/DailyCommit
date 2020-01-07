@@ -23,7 +23,9 @@ class CheckCommitWorker(private val context: Context, workerParameters: WorkerPa
 
     private fun pushNotification(commitCount: Int) {
         val title = context.getString(R.string.commit_notification_title)
-        val content = context.resources.getQuantityString(R.plurals.commit_notification_content, commitCount, commitCount, goalCommit)
+        val content = if (commitCount == 0)
+            context.getString(R.string.commit_notification_content_zero).format(goalCommit)
+        else context.resources.getQuantityString(R.plurals.commit_notification_content, commitCount, commitCount, goalCommit)
         NotificationUtils(context).pushNotification(title, content)
     }
 }

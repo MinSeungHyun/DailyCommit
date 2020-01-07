@@ -13,6 +13,7 @@
         <item quantity="one">You created %d commit today. Your goal is %d.</item>
         <item quantity="other">You created %d commits today. Your goal is %d.</item>
     </plurals>
+    <string name="commit_notification_content_zero">You didn\'t create any commit today. Your goal is %d.</string>
 
     <string name="notification_channel_general">General</string>
 </resources>
