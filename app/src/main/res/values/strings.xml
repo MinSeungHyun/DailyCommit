@@ -1,12 +1,17 @@
 <resources>
     <string name="app_name">DailyCommit</string>
 
-    <string name="commit_notification_title">Let\'s make some commits!</string>
-    <plurals name="commit_notification_content">
-        <item quantity="one">You made %d commit today. Your goal is %d.</item>
-        <item quantity="other">You made %d commits today. Your goal is %d.</item>
-    </plurals>
+    <string name="user_name">User Name</string>
+    <string name="goal_commits">Goal Commits : %d</string>
+    <string name="notification_interval">Notification Interval : %d minutes</string>
+    <string name="start">start</string>
+    <string name="user_not_found">User not found</string>
 
+    <string name="commit_notification_title">Let\'s create some commits!</string>
+    <plurals name="commit_notification_content">
+        <item quantity="one">You created %d commit today. Your goal is %d.</item>
+        <item quantity="other">You created %d commits today. Your goal is %d.</item>
+    </plurals>
 
     <string name="notification_channel_general">General</string>
 </resources>
