@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.seunghyun.dailycommit.R
+import java.net.SocketTimeoutException
 
 const val CHECK_COMMIT_WORK_NAME = "CHECK_COMMIT_WORK"
 const val USER_NAME_KEY = "userName"
@@ -14,7 +15,12 @@ class CheckCommitWorker(private val context: Context, workerParameters: WorkerPa
     private val goalCommit = workerParameters.inputData.getInt(GOAL_COMMIT_KEY, 1)
 
     override fun doWork(): Result {
-        val todayCommit = github.getTodayCommitCount()
+        val todayCommit = try {
+            github.getTodayCommitCount()
+        } catch (e: SocketTimeoutException) {
+            e.printStackTrace()
+            return Result.failure()
+        }
         todayCommit.log()
         if (todayCommit >= goalCommit) return Result.success()
         pushNotification(todayCommit)
