@@ -1,6 +1,7 @@
 package com.seunghyun.dailycommit
 
 import com.seunghyun.dailycommit.utils.Github
+import com.seunghyun.dailycommit.utils.isExistUser
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.text.ParseException
@@ -40,5 +41,16 @@ class GithubTest {
         assertThrows(NullPointerException::class.java) {
             Github("").getTodayCommitCount()
         }
+    }
+
+    @Test
+    fun isExistUserTrue() {
+        assertTrue(isExistUser("MinSeungHyun"))
+    }
+
+    @Test
+    fun isExistUserFalse() {
+        assertFalse(isExistUser(""))
+        assertFalse(isExistUser("it_is_not_user_name"))
     }
 }

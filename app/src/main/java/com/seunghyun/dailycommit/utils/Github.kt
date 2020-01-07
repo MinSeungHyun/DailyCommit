@@ -2,6 +2,7 @@ package com.seunghyun.dailycommit.utils
 
 import android.annotation.SuppressLint
 import androidx.annotation.WorkerThread
+import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.text.SimpleDateFormat
@@ -26,4 +27,15 @@ class Github(private val userName: String) {
     }
 
     private fun getProfilePage(): Document = Jsoup.connect("$BASE_URL$userName").get()
+}
+
+fun isExistUser(userName: String): Boolean {
+    return try {
+        Jsoup.connect("$BASE_URL$userName").get().select(".vcard-names")[0]
+        true
+    } catch (e: HttpStatusException) {
+        false
+    } catch (e: IndexOutOfBoundsException) {
+        false
+    }
 }
