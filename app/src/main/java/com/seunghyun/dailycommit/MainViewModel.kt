@@ -41,5 +41,7 @@ class MainViewModel(private val viewController: MainViewController) {
                 .build()
         viewController.getWorkManagerInstance()
                 .enqueueUniquePeriodicWork(CHECK_COMMIT_WORK_NAME, ExistingPeriodicWorkPolicy.REPLACE, workRequest)
+
+        viewController.showToast(R.string.service_started)
     }
 }
