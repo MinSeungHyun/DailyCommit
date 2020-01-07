@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.UnknownHostException
 import java.util.concurrent.TimeUnit
 
 private const val MIN_NOTIFICATION_INTERVAL = 15
@@ -30,7 +31,14 @@ class MainViewModel(private val viewController: MainViewController) {
     }
 
     fun onStartButtonClick() = CoroutineScope(Dispatchers.Main).launch {
-        val isExistUser = withContext(Dispatchers.IO) { isExistUser(userName.get()!!) }
+        val isExistUser = withContext(Dispatchers.IO) {
+            try {
+                isExistUser(userName.get()!!)
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+                false
+            }
+        }
         if (!isExistUser) {
             viewController.showToast(R.string.user_not_found)
             return@launch
