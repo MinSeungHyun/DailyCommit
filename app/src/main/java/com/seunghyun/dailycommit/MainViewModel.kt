@@ -14,13 +14,13 @@ import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 import java.util.concurrent.TimeUnit
 
-private const val MIN_NOTIFICATION_INTERVAL = 15
+const val MIN_NOTIFICATION_INTERVAL = 15
 
 class MainViewModel(private val viewController: MainViewController) {
-    val userName = ObservableField<String>("")
-    val goalCommit = ObservableInt()
-    val notificationSeekBarProgress = ObservableInt()
-    val notificationInterval = ObservableInt(MIN_NOTIFICATION_INTERVAL)
+    val userName = ObservableField<String>(viewController.getUserName())
+    val goalCommit = ObservableInt(viewController.loadGoalCommit())
+    val notificationInterval = ObservableInt(viewController.loadNotificationInterval())
+    val notificationSeekBarProgress = ObservableInt(notificationInterval.get() - MIN_NOTIFICATION_INTERVAL)
 
     init {
         notificationSeekBarProgress.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
@@ -42,6 +42,12 @@ class MainViewModel(private val viewController: MainViewController) {
         if (!isExistUser) {
             viewController.showToast(R.string.user_not_found)
             return@launch
+        }
+
+        viewController.run {
+            saveUserName(userName.get()!!)
+            saveGoalCommit(goalCommit.get())
+            saveNotificationInterval(notificationInterval.get())
         }
 
         val workRequest = PeriodicWorkRequestBuilder<CheckCommitWorker>(notificationInterval.get().toLong(), TimeUnit.MINUTES)
