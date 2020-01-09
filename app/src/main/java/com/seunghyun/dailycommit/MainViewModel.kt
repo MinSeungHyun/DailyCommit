@@ -32,31 +32,37 @@ class MainViewModel(private val viewController: MainViewController) {
     }
 
     fun onStartButtonClick() = CoroutineScope(Dispatchers.Main).launch {
-        val isExistUser = withContext(Dispatchers.IO) {
-            try {
-                isExistUser(userName.get()!!)
-            } catch (e: UnknownHostException) {
-                e.printStackTrace()
-                false
-            }
-        }
-        if (!isExistUser) {
+        if (!isUserExist()) {
             viewController.showToast(R.string.user_not_found)
             return@launch
         }
+        saveValues()
+        makeWorkRequest()
+        viewController.showToast(R.string.service_started)
+    }
 
-        viewController.run {
-            saveUserName(userName.get()!!)
-            saveGoalCommit(goalCommit.get())
-            saveNotificationInterval(notificationInterval.get())
+    private suspend fun isUserExist() = withContext(Dispatchers.IO) {
+        try {
+            val res = isExistUser(userName.get()!!)
+            res.log()
+            res
+        } catch (e: UnknownHostException) {
+            e.printStackTrace()
+            false
         }
+    }
 
+    private fun saveValues() = viewController.run {
+        saveUserName(userName.get()!!)
+        saveGoalCommit(goalCommit.get())
+        saveNotificationInterval(notificationInterval.get())
+    }
+
+    private fun makeWorkRequest() {
         val workRequest = PeriodicWorkRequestBuilder<CheckCommitWorker>(notificationInterval.get().toLong(), TimeUnit.MINUTES)
                 .setInputData(workDataOf(USER_NAME_KEY to userName.get(), GOAL_COMMIT_KEY to goalCommit.get()))
                 .build()
         viewController.getWorkManagerInstance()
                 .enqueueUniquePeriodicWork(CHECK_COMMIT_WORK_NAME, ExistingPeriodicWorkPolicy.REPLACE, workRequest)
-
-        viewController.showToast(R.string.service_started)
     }
 }
