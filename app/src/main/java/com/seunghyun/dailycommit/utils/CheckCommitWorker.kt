@@ -11,7 +11,8 @@ const val USER_NAME_KEY = "userName"
 const val GOAL_COMMIT_KEY = "goalCommit"
 
 class CheckCommitWorker(private val context: Context, workerParameters: WorkerParameters) : Worker(context, workerParameters) {
-    private val github = Github(workerParameters.inputData.getString(USER_NAME_KEY)!!)
+    private val userName = workerParameters.inputData.getString(USER_NAME_KEY)!!
+    private val github = Github(userName)
     private val goalCommit = workerParameters.inputData.getInt(GOAL_COMMIT_KEY, 1)
 
     override fun doWork(): Result {
@@ -28,10 +29,9 @@ class CheckCommitWorker(private val context: Context, workerParameters: WorkerPa
     }
 
     private fun pushNotification(commitCount: Int) {
-        val title = context.getString(R.string.commit_notification_title)
         val content = if (commitCount == 0)
             context.getString(R.string.commit_notification_content_zero).format(goalCommit)
         else context.resources.getQuantityString(R.plurals.commit_notification_content, commitCount, commitCount, goalCommit)
-        NotificationUtils(context).pushNotification(title, content)
+        NotificationUtils(context).pushCommitNotification(content, userName)
     }
 }
