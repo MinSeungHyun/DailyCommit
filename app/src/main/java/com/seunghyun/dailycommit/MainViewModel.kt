@@ -15,6 +15,7 @@ import java.net.UnknownHostException
 import java.util.concurrent.TimeUnit
 
 const val MIN_NOTIFICATION_INTERVAL = 15
+const val DEFAULT_GOAL_COMMIT = 10
 
 class MainViewModel(private val viewController: MainViewController) {
     val userName = ObservableField<String>(viewController.getUserName())

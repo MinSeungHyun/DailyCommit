@@ -1,6 +1,7 @@
 package com.seunghyun.dailycommit.utils
 
 import android.content.Context
+import com.seunghyun.dailycommit.DEFAULT_GOAL_COMMIT
 import com.seunghyun.dailycommit.MIN_NOTIFICATION_INTERVAL
 
 class SharedPreferenceManager(context: Context) {
@@ -19,7 +20,7 @@ class SharedPreferenceManager(context: Context) {
         apply()
     }
 
-    fun loadGoalCommit(): Int = preference.getInt("goalCommit", 0)
+    fun loadGoalCommit(): Int = preference.getInt("goalCommit", DEFAULT_GOAL_COMMIT)
 
     fun saveNotificationInterval(interval: Int) = editor.run {
         putInt("notificationInterval", interval)
